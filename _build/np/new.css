@@ -264,3 +264,6 @@ body.pg-open{overflow:hidden}
 .lb-img .fr.has{aspect-ratio:auto;max-height:none;background:#111;display:flex;justify-content:center}
 .lb-img .fr.has img{display:block;max-width:100%;max-height:74vh;max-height:74dvh;object-fit:contain}
 .wk .th .ph-art img{object-fit:cover}
+
+/* v32: no face sticker / speech bubble on the menu */
+#face,#hello{display:none!important}
