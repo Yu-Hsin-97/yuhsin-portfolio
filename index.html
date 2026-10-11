@@ -598,6 +598,24 @@ body.pg-open{overflow:hidden}
 
 /* v32: no face sticker / speech bubble on the menu */
 #face,#hello{display:none!important}
+
+/* ================= v33: message card ================= */
+.msg{max-width:560px;margin-top:6px}
+.msg-card{position:relative;background:#fff;color:#111;border:3px solid #111;border-radius:16px;padding:20px 20px 14px;transform:rotate(-1deg);box-shadow:0 22px 50px rgba(0,0,0,.55);transition:transform .5s cubic-bezier(.3,1.4,.5,1),opacity .5s}
+.msg-card::before{content:"";position:absolute;right:18px;top:16px;width:46px;height:56px;border:2px dashed rgba(200,22,29,.55);border-radius:4px;
+  background:radial-gradient(circle at 50% 45%,rgba(200,22,29,.18) 0 12px,transparent 13px)}
+.msg-name,.msg-text{display:block;width:100%;font:inherit;color:#111;background:transparent;border:0;outline:0;resize:none}
+.msg-name{font-weight:700;font-size:.95rem;padding:2px 64px 10px 0;border-bottom:1.5px dashed rgba(17,17,17,.25)}
+.msg-text{font-size:1rem;line-height:1.9;padding:10px 0 4px;min-height:7.6em;
+  background:repeating-linear-gradient(transparent 0 calc(1.9em - 1px),rgba(17,17,17,.12) calc(1.9em - 1px) 1.9em) 0 10px/100% 1.9em local}
+.msg-name::placeholder,.msg-text::placeholder{color:#999}
+.msg-f{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.msg-n{font-size:.75rem;color:#888;font-family:"Inter",sans-serif}
+.msg-go{font:inherit;font-weight:900;font-size:.95rem;color:#fff;background:#c8161d;border:2px solid #111;border-radius:999px;padding:8px 18px;cursor:pointer;box-shadow:3px 3px 0 #111;transition:transform .15s,box-shadow .15s}
+.msg-go:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #111}
+.msg-go:disabled{opacity:.6}
+.msg-s{min-height:1.6em;margin:14px 0 0;font-size:.92rem;color:#ffcf7a}
+.msg.sent .msg-card{transform:translate(40px,-30px) rotate(6deg);opacity:.4}
 .seq canvas{-webkit-mask-image:none!important;mask-image:none!important}
 </style>
 </head>
@@ -838,20 +856,20 @@ addEventListener('load',()=>{if(readyShown)snapHome();});
 (function(){
 const PG=document.getElementById('pg'),B=document.getElementById('pgB'),K=document.getElementById('pgK'),TT=document.getElementById('pgT'),CR=document.getElementById('pgCr'),BK=document.getElementById('pgBack');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const art=(o,label)=>`<span class="ph-art" style="--c1:${o.c1||'#2a2a30'};--c2:${o.c2||'#141417'}">${o.img?`<img src="${o.img}" alt="${esc(o.t||'')}" loading="lazy">`:esc(label||'（圖片待放）')}</span>`;
+const art=(o,label)=>`<span class="ph-art" style="--c1:${o.c1||'#2a2a30'};--c2:${o.c2||'#141417'}">${o.img?`<img src="${o.img}" alt="${esc(o.t||'')}" loading="lazy">`:esc(label||'建造中 🚧')}</span>`;
 
 /* ---------- content (（ ）= 之後替換成真實內容) ---------- */
 const ABOUT={
   hello:'身邊的人常說我是個慢熟、真誠，偶爾有點天然呆的女孩。我喜歡把不同的想法融進創作裡，接觸工業設計後，發現自己不只愛畫畫，也對科技、產品與生活充滿好奇，於是開始嘗試跨領域創作，探索更多可能性。',
-  words:[['慢熟','SLOW TO WARM','（寫一個小故事：慢熟的我，是怎麼和一群人從陌生變成好朋友的？）'],
-         ['真誠','SINCERE','（寫一個小故事：哪一次因為真誠，讓事情變得不一樣？）'],
-         ['天然呆','A LITTLE DREAMY','（寫一件讓大家笑出來的天然呆小事）']],
+  words:[['慢熟','SLOW TO WARM','小故事努力撰寫中 ✍️<br>敬請期待！'],
+         ['真誠','SINCERE','這個故事還在醞釀中 ☁️<br>很快就會說給你聽'],
+         ['天然呆','A LITTLE DREAMY','天然呆事件整理中…<br>（太多了選不完 🤭）']],
   route:[['畫畫','起點','從小就喜歡畫畫，用圖把心裡的畫面留下來。'],
-         ['工業設計','視野打開','接觸工業設計後，開始思考作品和「人、生活」的關係。'],
+         ['自主學習','讓畫動起來','自主學習 Live2D，從繪製、拆分、布點到動畫，讓自己畫的角色真的動起來。'],
          ['科技專題','動手實作','高二專題用 Arduino / ESP32 做智慧太陽能系統，第一次把想法變成會動的裝置。'],
-         ['動畫','讓畫動起來','自主學習 Live2D，想讓自己畫的角色真的動起來。']],
+         ['工程實作','動手做出來','從線路設計、電路圖到接線測試，把想法實際做出來，再用設計思考延伸成三星 Solve for Tomorrow 的提案。']],
   quotes:[['（老師對我的一句評價）','— （老師）'],['（同學眼中的我）','— （同學）'],['（家人眼中的我）','— （家人）']],
-  next:'（寫下接下來想學的方向：例如我相信藝術需要理解人心，所以除了創作，也想修習心理學……）'
+  next:'作者正在逐夢中 ✨<br>接下來的方向，正一筆一筆畫出來，敬請期待！'
 };
 const PROJECT={
   title:'從發電到儲電：<br>智慧太陽能新策略',badge:'高二專題・工程與設計',
@@ -878,7 +896,7 @@ const WORKS=[
   {t:'沐光',y:'2025',c:'電繪',tl:'Procreate',c1:'#3d6ea8',c2:'#14243b',
    d:'以陽光少年為主題，嘗試透過暖光與色彩的搭配，營造明亮、清透的畫面氛圍，並練習光線落在臉部時的明暗變化。'},
   {t:'雨夜',y:'2025',c:'電繪',tl:'Procreate／iPad・原創',c1:'#1d2433',c2:'#0b0d14',
-   d:'原創插畫。（創作理念待補）',
+   d:'原創插畫。創作理念努力整理中 ✍️',
    x:'圖層拆解：背景、角色分開繪製再合成。背景用色塊與光斑表現雨中城市；角色先定剪影與姿勢；最後合成時加上雨絲與整體色調。'},
   {t:'從草稿到完稿：我怎麼畫一張圖',y:'2026',c:'電繪',tl:'Procreate／iPad・Fan Art',c1:'#2a4a6a',c2:'#0d1722',
    d:'這次的創作，我特別採用水彩般的渲染手法來呈現整體的清透感。在細節刻畫上，著重於頭髮的光影變化與反光技巧練習，藉由通透的光線交錯，凸顯出這幅插畫的空靈感。',
@@ -893,25 +911,25 @@ const WORKS=[
   {t:'從靜態插畫到動態角色：Live2D',y:'114 學年度',c:'動畫',img:'works/live2d_plant.webp',big:'works/live2d_plan.webp',tl:'Procreate・Live2D Cubism',c1:'#4a2226',c2:'#170b0c',
    d:'幾年前我在社群網站上看到 MiuA 的 Live2D 作品，第一次知道插畫可以動起來。經過長期練習、畫風逐漸穩定後，我想讓自己畫的角色不再停在畫面裡，所以用這次自主學習挑戰它：親手走一遍從繪製到動畫化的完整流程。',
    x:'製作流程：構圖 → 電繪 → 拆分 → 角色布點 → 物件動態 → Animation → 成果發表。把一張圖拆成頭髮、眼白、睫毛、嘴唇等數十個圖層，被遮住的地方都要補畫；再為每個圖層加上網格點、用變形器與參數做出歪頭與頭髮飄動，最後在時間軸上逐一設定關鍵影格。十週進度：主題發想與資料蒐集 → 確立主題、撰寫計畫 → 繪製與拆分人物 → 匯入 Live2D Cubism 初始化、認識軟體英文介面 → 布點、紋理、眼睛眉毛口型與肢體 → XYZ 角度動畫與早期測試 → Live2D 動畫模式 → 補充時間 → 學習成果報告。困難：部分物件無法自動布點，又選錯處理選項，資料量過大讓電腦當機——關掉重做，並查找手動布點的教學。'},
-  {t:'學測生 Vlog｜5 小時台南遊',y:'',c:'影像',tl:'拍攝與剪輯',c1:'#4a3a28',c2:'#15110c',d:'（創作目的：開頭怎麼留住觀眾、節奏與封面設計的想法）'},
-  {t:'三星設計思考工作坊 Vlog',y:'',c:'影像',tl:'拍攝與剪輯',c1:'#24413a',c2:'#0c1513',d:'記錄參加三星 Solve for Tomorrow 設計思考工作坊的過程。（補充：拍攝與剪輯的想法）'}
+  {t:'學測生 Vlog｜5 小時台南遊',y:'',c:'影像',tl:'拍攝與剪輯',c1:'#4a3a28',c2:'#15110c',d:'影片整理中 🎬 敬請期待！'},
+  {t:'三星設計思考工作坊 Vlog',y:'',c:'影像',tl:'拍攝與剪輯',c1:'#24413a',c2:'#0c1513',d:'記錄參加三星 Solve for Tomorrow 設計思考工作坊的過程。'}
 ];
 const HONORS=[
-  {k:'經歷',y:'2026.10',t:'靖娟兒童安全文教基金會 志工',o:'財團法人靖娟兒童安全文教基金會',r:'志工服務 3 小時',img:'hon/h_vol',d:'擔任基金會志工，協助辦理社區外展活動：擔任關主、協助場佈及場收。（補充：這次服務讓我學到什麼）'},
-  {k:'經歷',y:'2026.07',t:'臺灣能永續能源創意實作競賽',o:'國立科學工藝博物館・教育部淨零永續能源跨域應用人才培育計畫｜中學組（高中職）',r:'完成創意企畫書',img:'hon/h_nstm',d:'與蘇于榛、尤姚虹組隊參賽，完成永續能源創意企畫書。（補充：企畫內容與我負責的部分）'},
+  {k:'經歷',y:'2026.10',t:'靖娟兒童安全文教基金會 志工',o:'財團法人靖娟兒童安全文教基金會',r:'志工服務 3 小時',img:'hon/h_vol',d:'擔任基金會志工，協助辦理社區外展活動：擔任關主、協助場佈及場收。'},
+  {k:'經歷',y:'2026.07',t:'臺灣能永續能源創意實作競賽',o:'國立科學工藝博物館・教育部淨零永續能源跨域應用人才培育計畫｜中學組（高中職）',r:'完成創意企畫書',img:'hon/h_nstm',d:'與蘇于榛、尤姚虹組隊參賽，完成永續能源創意企畫書。'},
   {k:'獎項',y:'2026.07',t:'三星 Solve for Tomorrow',o:'Smart Solar DoReMi｜從發電到儲電：智慧太陽能新策略',r:'複賽入圍',img:'hon/h_samsung',d:'把專題延伸成給租屋族的產品提案：從人物誌、利害關係人地圖、親和圖，到 3D 模擬網站與三位受測者的使用者測試。我負責線路設計、電路圖繪製與簡報製作。'},
-  {k:'經歷',y:'2026.07',t:'旺宏科學獎（第二十五屆）',o:'旺宏教育基金會｜從發電到儲電：智慧太陽能新策略',r:'完成參賽',img:'hon/h_mxic',d:'以專題作品參加第二十五屆旺宏科學獎並完成繳交作品。（補充：參賽過程與收穫）'},
-  {k:'獎項',y:'2026.06',t:'第六屆專題研究發表會《啟程》決選',o:'三民高中 114 學年度｜雙語類 工程與設計組',r:'優選',img:'hon/h_qicheng',d:'作品「從發電到儲電：智慧太陽能新策略」在校內專題研究發表會決選獲得優選。（補充：評審回饋、我們怎麼準備雙語發表）'},
-  {k:'獎項',y:'2026.04',t:'高雄市第 66 屆中小學科學展覽會',o:'高雄市政府教育局',r:'作品優良・入選複賽',img:'hon/h_sci66',d:'與團隊以智慧太陽能專題參加高雄市科展，作品優良入選複賽。（補充：比賽過程中學到的事）'},
-  {k:'獎項',y:'2026.01',t:'學生專題研究初啼及創意製作－雙語類',o:'三民高中 114 學年度｜作品「太陽能板極大化效益」',r:'最佳表達獎',img:'hon/h_chuti',d:'在專題初啼的雙語發表中獲得最佳表達獎。（補充：我怎麼準備用雙語把專題講清楚）'},
-  {k:'獎項',y:'2026.01',t:'自主學習成果海報展',o:'三民高中 114 學年度｜從靜態插畫到動態角色：Live2D 動畫學習',r:'入選獎',img:'hon/h_live2d',d:'10 週自學 Live2D，從繪製、拆分、布點到動畫輸出，成果海報入選。（補充：展出時被問「這不是 AI 就做得到嗎」——我怎麼回答、這件事讓我想了什麼）'},
+  {k:'經歷',y:'2026.07',t:'旺宏科學獎（第二十五屆）',o:'旺宏教育基金會｜從發電到儲電：智慧太陽能新策略',r:'完成參賽',img:'hon/h_mxic',d:'以專題作品參加第二十五屆旺宏科學獎並完成繳交作品。'},
+  {k:'獎項',y:'2026.06',t:'第六屆專題研究發表會《啟程》決選',o:'三民高中 114 學年度｜雙語類 工程與設計組',r:'優選',img:'hon/h_qicheng',d:'作品「從發電到儲電：智慧太陽能新策略」在校內專題研究發表會決選獲得優選。'},
+  {k:'獎項',y:'2026.04',t:'高雄市第 66 屆中小學科學展覽會',o:'高雄市政府教育局',r:'作品優良・入選複賽',img:'hon/h_sci66',d:'與團隊以智慧太陽能專題參加高雄市科展，作品優良入選複賽。'},
+  {k:'獎項',y:'2026.01',t:'學生專題研究初啼及創意製作－雙語類',o:'三民高中 114 學年度｜作品「太陽能板極大化效益」',r:'最佳表達獎',img:'hon/h_chuti',d:'在專題初啼的雙語發表中獲得最佳表達獎。'},
+  {k:'獎項',y:'2026.01',t:'自主學習成果海報展',o:'三民高中 114 學年度｜從靜態插畫到動態角色：Live2D 動畫學習',r:'入選獎',img:'hon/h_live2d',d:'10 週自學 Live2D，從繪製、拆分、布點到動畫輸出，成果海報入選。'},
   {k:'經歷',y:'2025.08',t:'半導體產業培力營隊',o:'高雄市教育局 × 日月光半導體 × 張姚宏影基金會',r:'研習 7 小時',img:'hon/h_ase',d:'參加「高級中等學校師資增能及學生培力計畫」營隊，全程參與學習及實作，增進對半導體產業的認識。'},
   {k:'經歷',y:'2025.07',t:'TimeCraft 雙語木製時鐘工作坊',o:'樹德科技大學・空中英語教室',r:'全程參與',img:'hon/h_clock',d:'用英文完成木製時鐘實作，證書肯定我的積極參與、好奇心與團隊合作。'},
   {k:'經歷',y:'2025.04',t:'Bake & Talk 雙語烘焙體驗營',o:'空中英語教室高雄分社・三民高中',r:'表現優異',img:'hon/h_bake',d:'全程參與雙語烘焙體驗營，積極參與、表現優異。'},
-  {k:'獎項',y:'2024.11',t:'113 學年度高雄市學生美術比賽',o:'高雄市政府教育局｜普通班北區高中（職）組 漫畫類',r:'佳作',img:'hon/h_art113',d:'（得獎作品與創作想法）'},
-  {k:'經歷',y:'2026',t:'三星 Solve for Tomorrow 設計思考工作坊',o:'三星 Solve for Tomorrow',r:'參加',d:'（學到的設計思考流程，之後怎麼用在專題上）'},
-  {k:'獎項',y:'國中',t:'高雄市美術能力競賽',o:'高雄市',r:'佳作',d:'（得獎作品與創作想法）'},
-  {k:'獎項',y:'國中',t:'高雄市創意運動會 藝術組',o:'高雄市',r:'第二名',d:'（得獎作品與創作想法）'}
+  {k:'獎項',y:'2024.11',t:'113 學年度高雄市學生美術比賽',o:'高雄市政府教育局｜普通班北區高中（職）組 漫畫類',r:'佳作',img:'hon/h_art113',d:'得獎故事整理中 ✍️ 敬請期待！'},
+  {k:'經歷',y:'2026',t:'三星 Solve for Tomorrow 設計思考工作坊',o:'三星 Solve for Tomorrow',r:'參加',d:'心得整理中 ✍️ 敬請期待！'},
+  {k:'獎項',y:'國中',t:'高雄市美術能力競賽',o:'高雄市',r:'佳作',d:'得獎故事整理中 ✍️ 敬請期待！'},
+  {k:'獎項',y:'國中',t:'高雄市創意運動會 藝術組',o:'高雄市',r:'第二名',d:'得獎故事整理中 ✍️ 敬請期待！'}
 ];
 
 /* ---------- page shell: a small stack of levels ---------- */
@@ -946,16 +964,31 @@ function toggles(root){root.querySelectorAll('[data-more]').forEach(b=>b.addEven
 const ZV=document.createElement('div');ZV.className='zv';ZV.innerHTML='<img alt=""><button class="pg-x" aria-label="關閉">✕</button>';document.body.appendChild(ZV);
 function zoomImg(src){ZV.querySelector('img').src=src;ZV.classList.add('on');}
 ZV.onclick=()=>ZV.classList.remove('on');
+/* message card: sends to a Google Form when MSG_FORM is filled in */
+const MSG_FORM={action:'',name:'',text:''};
+function setupMsg(v){const f=v.querySelector('.msg');if(!f)return;
+  const ta=f.querySelector('.msg-text'),nm=f.querySelector('.msg-name'),n=f.querySelector('.msg-n'),st=f.querySelector('.msg-s'),go=f.querySelector('.msg-go');
+  ta.addEventListener('input',()=>{n.textContent=ta.value.length+' / 300';});
+  f.addEventListener('submit',e=>{e.preventDefault();const t=ta.value.trim();
+    if(!t){st.textContent='先寫一點想說的話吧 ✏️';ta.focus();return;}
+    if(!MSG_FORM.action){st.textContent='留言信箱施工中 🚧 很快就能寄出囉，謝謝你！';return;}
+    go.disabled=true;go.textContent='寄送中…';
+    const fd=new FormData();fd.append(MSG_FORM.text,t);if(MSG_FORM.name)fd.append(MSG_FORM.name,nm.value.trim()||'匿名');
+    fetch(MSG_FORM.action,{method:'POST',mode:'no-cors',body:fd}).then(()=>{f.classList.add('sent');ta.value='';nm.value='';n.textContent='0 / 300';st.textContent='收到了！謝謝你的話 💛';})
+      .catch(()=>{st.textContent='好像沒有寄出去，等一下再試試看 🙏';}).finally(()=>{go.disabled=false;go.textContent='寄出 💌';setTimeout(()=>f.classList.remove('sent'),1200);});});}
 /* ---------- 01 about me: scroll up & down ---------- */
 function pAbout(v){
   const S=[
     `<div class="ab-k">01 — HELLO</div><h3>嗨，我是<em>于昕</em>。</h3><p class="lead">${ABOUT.hello}</p><span class="ab-down">往下滑 ↓</span>`,
     `<div class="ab-k">02 — 三個關鍵字</div><h3>身邊的人說我…</h3><p class="hint" style="margin:0 0 14px">點一下卡片，看背後的小故事</p>
      <div class="flips">${ABOUT.words.map(w=>`<button class="flip" aria-label="${w[0]}"><span class="in"><span class="f"><b>${w[0]}</b><span>${w[1]}</span><i>點我翻面 ↻</i></span><span class="b">${w[2]}</span></span></button>`).join('')}</div>`,
-    `<div class="ab-k">03 — 我的跨領域路線</div><h3>從畫畫，一路走到<em>科技</em>與<em>動畫</em></h3><p class="hint" style="margin:0 0 14px">點每一站展開</p>
+    `<div class="ab-k">03 — 我的跨領域路線</div><h3>從畫畫出發，一路走到<em>動畫</em>與<em>實作</em></h3>
      <div class="route">${ABOUT.route.map((r,j)=>`<button class="stop" data-more="rt${j}"><small>${r[1]}</small><b>${r[0]}</b><span class="reveal" id="rt${j}"><div><p>${r[2]}</p></div></span></button>`).join('')}</div>`,
-    `<div class="ab-k">04 — 別人眼中的我</div><h3>他們這樣說</h3>
-     <div class="quotes">${ABOUT.quotes.map(q=>`<div class="quote">${q[0]}<small>${q[1]}</small></div>`).join('')}</div>`,
+    `<div class="ab-k">04 — 給我的話</div><h3>留下想跟我說的話吧 💌</h3>
+     <form class="msg" novalidate><div class="msg-card"><input class="msg-name" maxlength="20" placeholder="你的名字（可以不填）" aria-label="名字">
+       <textarea class="msg-text" maxlength="300" rows="4" placeholder="想對于昕說的話…" aria-label="留言"></textarea>
+       <div class="msg-f"><span class="msg-n">0 / 300</span><button type="submit" class="msg-go">寄出 💌</button></div></div>
+       <p class="msg-s" aria-live="polite"></p></form>`,
     `<div class="ab-k">05 — NEXT</div><h3>接下來，我想…</h3><p class="lead">${ABOUT.next}</p>
      <div style="margin-top:26px;display:flex;gap:10px;flex-wrap:wrap"><button class="more" data-go="1">看我的專題 →</button><button class="more" data-go="2">看我的作品 →</button></div>`];
   v.style.padding='0';v.style.maxWidth='none';v.style.height='100%';
@@ -968,6 +1001,7 @@ function pAbout(v){
   v.querySelectorAll('.ab-sec').forEach(s=>io.observe(s));
   v.querySelectorAll('.flip').forEach(f=>f.onclick=()=>f.classList.toggle('on'));
   v.querySelectorAll('.stop').forEach(s=>s.addEventListener('click',()=>s.classList.toggle('on')));
+  setupMsg(v);
   toggles(v);
   v.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{cleanup();open(+b.dataset.go);});
 }
@@ -1017,14 +1051,14 @@ let wFilter='全部';
 function pWorks(v){const cats=['全部',...new Set(WORKS.map(w=>w.c))];
   const list=WORKS.map((w,j)=>({w,j})).filter(o=>wFilter==='全部'||o.w.c===wFilter);
   v.innerHTML=`<div class="filters">${cats.map(c=>`<button class="${c===wFilter?'on':''}" data-c="${c}">${c}</button>`).join('')}</div>
-    <div class="grid">${list.map(o=>`<button class="wk" data-j="${o.j}"><span class="th">${art(o.w,'（作品圖）')}</span><b>${o.w.t}</b><small>${o.w.c}${o.w.y?'・'+o.w.y:''}</small></button>`).join('')}</div>`;
+    <div class="grid">${list.map(o=>`<button class="wk" data-j="${o.j}"><span class="th">${art(o.w,'作品搬運中 🚧')}</span><b>${o.w.t}</b><small>${o.w.c}${o.w.y?'・'+o.w.y:''}</small></button>`).join('')}</div>`;
   v.querySelectorAll('.filters button').forEach(b=>b.onclick=()=>{wFilter=b.dataset.c;pWorks(v);});
   v.querySelectorAll('.wk').forEach(b=>b.onclick=()=>workAt(+b.dataset.j));
 }
 function workAt(j){
   const ids=()=>WORKS.map((w,k)=>k).filter(k=>wFilter==='全部'||WORKS[k].c===wFilter);
   const fn=v=>{const w=WORKS[j],L=ids(),p=L.indexOf(j);
-    v.innerHTML=`<div class="lb"><div class="lb-img"><div class="fr${w.big?' has':''}">${w.big?`<img src="${w.big}" alt="${w.t}">`:art(w,'（作品大圖）')}</div>
+    v.innerHTML=`<div class="lb"><div class="lb-img"><div class="fr${w.big?' has':''}">${w.big?`<img src="${w.big}" alt="${w.t}">`:art(w,'建造中・敬請期待 🛠️')}</div>
       <button class="nav2 p" aria-label="上一件" ${p<=0?'disabled':''}>‹</button><button class="nav2 n" aria-label="下一件" ${p>=L.length-1?'disabled':''}>›</button></div>
       <div class="lb-meta"><span class="sv-c">${String(p+1).padStart(2,'0')} / ${String(L.length).padStart(2,'0')}　${w.c}</span><h3>${w.t}</h3><span class="yr">${w.y}</span><p class="tl">${w.tl||''}</p><p>${w.d}</p>
       ${w.x?`<button class="more" data-more="wkm" data-lab="看更多 +">看更多 +</button><div class="reveal" id="wkm"><div><p>${w.x}</p></div></div>`:''}</div></div>`;
@@ -1044,16 +1078,16 @@ function pHonors(v){
     <div class="deck">${L.map((h,j)=>`<button class="hc" data-j="${j}" aria-label="${h.t}">
       <span class="in"><span class="f"><span class="wm">${String(j+1).padStart(2,'0')}</span><span class="tag ${h.k==='經歷'?'dk':''}">${h.k}</span><span class="yr">${h.y}</span><h4>${h.t}</h4><span class="org">${h.o}</span>
         <span class="rank"><b>${h.r}</b><i>點我翻面 ↻</i></span></span>
-      <span class="b"><h4>${h.t}</h4><p>${h.d}</p>${h.img?`<span class="cert" data-big="${h.img}.webp" role="button" aria-label="放大證書"><img src="${h.img}t.webp" alt="" loading="lazy"><i>點圖放大 ⤢</i></span>`:art(h,'（活動照片／獎狀）')}</span></span></button>`).join('')}</div>
+      <span class="b"><h4>${h.t}</h4><p>${h.d}</p>${h.img?`<span class="cert" data-big="${h.img}.webp" role="button" aria-label="放大證書"><img src="${h.img}t.webp" alt="" loading="lazy"><i>點圖放大 ⤢</i></span>`:art(h,'獎狀搬運中 📦')}</span></span></button>`).join('')}</div>
     <div class="deck-nav"><button class="nav2 p" aria-label="上一張">‹</button><span class="deck-c"></span><button class="nav2 n" aria-label="下一張">›</button></div>`;
   const cards=[...v.querySelectorAll('.hc')],cnt=v.querySelector('.deck-c'),bp=v.querySelector('.nav2.p'),bn=v.querySelector('.nav2.n');
-  function lay(){cards.forEach((c,j)=>{const d=j-hk;c.classList.remove('on');
+  function lay(){const N=cards.length;cards.forEach((c,j)=>{let d=(j-hk+N)%N;if(N>2&&d===N-1)d=-1;c.classList.remove('on');
       c.style.zIndex=100-Math.abs(d);c.tabIndex=d===0?0:-1;c.setAttribute('aria-hidden',d!==0);
       if(d<0){c.style.transform='translateX(-130%) rotate(-14deg)';c.style.opacity=0;c.style.pointerEvents='none';}
       else if(d>3){c.style.transform='translateY(36px) scale(.86)';c.style.opacity=0;c.style.pointerEvents='none';}
       else{c.style.transform=d?`translateY(${d*14}px) scale(${1-d*.05}) rotate(${d%2?2:-2}deg)`:'none';c.style.opacity=d?1-d*.22:1;c.style.pointerEvents=d?'none':'auto';}});
-    cnt.textContent=`${String(hk+1).padStart(2,'0')} / ${String(cards.length).padStart(2,'0')}`;bp.disabled=hk===0;bn.disabled=hk===cards.length-1;}
-  view.prev=()=>{if(hk>0){hk--;lay();}};view.next=()=>{if(hk<cards.length-1){hk++;lay();}};
+    cnt.textContent=`${String(hk+1).padStart(2,'0')} / ${String(cards.length).padStart(2,'0')}`;bp.disabled=bn.disabled=cards.length<2;}
+  view.prev=()=>{hk=(hk-1+cards.length)%cards.length;lay();};view.next=()=>{hk=(hk+1)%cards.length;lay();};
   bp.onclick=view.prev;bn.onclick=view.next;
   const deck=v.querySelector('.deck');swipe(deck,view.next,view.prev);
   cards.forEach(c=>c.onclick=()=>{if(Date.now()-(deck.__swiped||0)<400)return;c.classList.toggle('on');});
