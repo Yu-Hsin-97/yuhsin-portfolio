@@ -7,7 +7,7 @@ const art=(o,label)=>`<span class="ph-art" style="--c1:${o.c1||'#2a2a30'};--c2:$
 
 /* ---------- content (（ ）= 之後替換成真實內容) ---------- */
 const ABOUT={
-  hello:'身邊的人常說我是個慢熟、真誠，偶爾有點天然呆的女孩。我喜歡把不同的想法融進創作裡，接觸工業設計後，發現自己不只愛畫畫，也對科技、產品與生活充滿好奇，於是開始嘗試跨領域創作，探索更多可能性。',
+  hello:'身邊的人常說我是個慢熟、真誠，偶爾有點天然呆的女孩。我喜歡把不同的想法融進創作裡，透過自主學習與專題實作，發現自己不只愛畫畫，也對科技、產品與生活充滿好奇，於是開始嘗試跨領域創作，探索更多可能性。',
   words:[['慢熟','SLOW TO WARM','小故事努力撰寫中 ✍️<br>敬請期待！'],
          ['真誠','SINCERE','這個故事還在醞釀中 ☁️<br>很快就會說給你聽'],
          ['天然呆','A LITTLE DREAMY','天然呆事件整理中…<br>（太多了選不完 🤭）']],
@@ -139,7 +139,7 @@ function setupMsg(v){const f=v.querySelector('.msg');if(!f)return;
 /* ---------- 01 about me: scroll up & down ---------- */
 function pAbout(v){
   const S=[
-    `<div class="ab-hero"><div class="ab-tx"><div class="ab-k">01 — HELLO</div><h3>嗨，我是于昕。</h3><p class="lead">${ABOUT.hello}</p></div><figure class="ab-ph"><img src="works/me.webp" alt="于昕拿著相機站在月台上"><figcaption>鏡頭後面的我 📷</figcaption></figure></div><span class="ab-down">往下滑 ↓</span>`,
+    `<div class="ab-k">01 — HELLO</div><h3>嗨，我是于昕。</h3><p class="lead">${ABOUT.hello}</p><span class="ab-down">往下滑 ↓</span>`,
     `<div class="ab-k">02 — 三個關鍵字</div><h3>身邊的人說我…</h3><p class="hint" style="margin:0 0 14px">點一下卡片，看背後的小故事</p>
      <div class="flips">${ABOUT.words.map(w=>`<button class="flip" aria-label="${w[0]}"><span class="in"><span class="f"><b>${w[0]}</b><span>${w[1]}</span><i>點我翻面 ↻</i></span><span class="b">${w[2]}</span></span></button>`).join('')}</div>`,
     `<div class="ab-k">03 — 我的跨領域路線</div><h3>從畫畫出發，一路走到<em>動畫</em>與<em>實作</em></h3>
