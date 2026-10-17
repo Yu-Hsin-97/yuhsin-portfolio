@@ -292,3 +292,8 @@ body.pg-open{overflow:hidden}
 .ab-ph img{width:100%;display:block;border-radius:10px;box-shadow:0 18px 50px rgba(0,0,0,.55);border:6px solid #f2efe9;border-bottom-width:6px;aspect-ratio:3/4;object-fit:cover}
 .ab-ph figcaption{margin-top:10px;text-align:center;font-size:.82rem;color:rgba(242,239,233,.6)}
 @media (max-width:640px){.ab-hero{grid-template-columns:1fr}.ab-ph{order:-1;width:52%;margin:0 auto 6px}.ab-ph figcaption{display:none}}
+/* v35 background music button */
+#bgmBtn{position:fixed;left:14px;bottom:14px;z-index:9999;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(10,10,12,.62);color:#fff;font-size:1.15rem;cursor:pointer;backdrop-filter:blur(6px);display:grid;place-items:center;transition:opacity .2s}
+#bgmBtn.off{opacity:.55;text-decoration:line-through}
+#bgmBtn:not(.off){animation:bgmp 2.4s ease-in-out infinite}
+@keyframes bgmp{50%{box-shadow:0 0 0 7px rgba(255,59,63,.14)}}
