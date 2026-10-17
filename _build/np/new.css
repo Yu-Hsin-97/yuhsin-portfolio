@@ -297,3 +297,11 @@ body.pg-open{overflow:hidden}
 #bgmBtn.off{opacity:.55;text-decoration:line-through}
 #bgmBtn:not(.off){animation:bgmp 2.4s ease-in-out infinite}
 @keyframes bgmp{50%{box-shadow:0 0 0 7px rgba(255,59,63,.14)}}
+
+#gate{position:fixed;inset:0;z-index:100000;background:radial-gradient(120% 90% at 50% 30%,#1a1012,#07070a);display:grid;place-items:center;text-align:center;color:#f2efe9;transition:opacity .6s}
+#gate.gone{opacity:0;pointer-events:none}
+#gate small{display:block;font:900 .74rem Inter,sans-serif;letter-spacing:.3em;color:#ff3b3f;margin-bottom:10px}
+#gate h1{margin:0 0 26px;font-size:clamp(1.8rem,6vw,3.2rem);font-weight:900}
+#gate button{font:inherit;font-weight:800;font-size:1.05rem;color:#fff;background:#e5262b;border:0;border-radius:99px;padding:14px 34px;cursor:pointer;box-shadow:0 0 0 0 rgba(229,38,43,.5);animation:gp 2s infinite}
+#gate p{margin:18px 0 0;font-size:.85rem;color:rgba(242,239,233,.6)}
+@keyframes gp{70%{box-shadow:0 0 0 16px rgba(229,38,43,0)}}
