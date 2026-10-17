@@ -57,6 +57,5 @@ rep("cx.clearRect(0,0,CW,CH);cx.drawImage(frames[i],0,0);","cx.clearRect(0,0,cv.
 s=s.replace('</style>\n</head>','.seq canvas{-webkit-mask-image:none!important;mask-image:none!important}\n</style>\n</head>',1)
 # pages script before </body>
 s=s.replace('</body>\n</html>',open('np/pages.js').read()+'\n</body>\n</html>')
-s=s.replace('if(v.paused&&!handed)handoff();','if(v.paused&&!handed&&!window.__gate)handoff();')
 open('/mnt/user-data/outputs/portfolio2.html','w').write(s)
 print(len(s))

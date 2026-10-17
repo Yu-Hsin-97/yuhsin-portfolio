@@ -32,26 +32,4 @@ function frame(now){requestAnimationFrame(frame);
   ctx.globalAlpha=1;}
 requestAnimationFrame(frame);
 })();
-</script><script>
-(function(){
-let a=new Audio('bgm.mp3'),on=true,playing=false;a.loop=true;a.volume=.35;a.preload='auto';
-const vid=document.getElementById('introVid');
-const g=document.createElement('div');g.id='gate';
-g.innerHTML='<div class="gt"><small>PORTFOLIO</small><h1>于昕｜互動履歷</h1><button type="button" id="gateGo">點擊進入 ▶</button><p>♪ 內有背景音樂，建議開啟聲音</p></div>';
-document.body.appendChild(g);
-let opened=false;window.__gate=true;
-function holdVid(){if(!opened&&vid&&!vid.paused)vid.pause();}
-if(vid){vid.addEventListener('play',holdVid);holdVid();}
-function openGate(){if(opened)return;opened=true;window.__gate=false;g.classList.add('gone');setTimeout(()=>g.remove(),700);
-  if(vid){try{vid.currentTime=0;}catch(e){}vid.play().catch(()=>{});}}
-const b=document.createElement('button');b.id='bgmBtn';b.type='button';b.setAttribute('aria-label','背景音樂');b.textContent='♪';
-function ui(){b.classList.toggle('off',!(on&&playing));b.title=on?'關閉音樂':'開啟音樂';}
-function tryPlay(){if(!on||playing)return Promise.resolve();return a.play().then(()=>{playing=true;ui();}).catch(()=>{});}
-g.querySelector('#gateGo').onclick=()=>{tryPlay();openGate();};
-b.onclick=e=>{e.stopPropagation();if(on&&playing){on=false;a.pause();playing=false;}else{on=true;tryPlay();}ui();};
-document.body.appendChild(b);ui();
-// if the browser allows real autoplay, skip the gate entirely
-a.play().then(()=>{playing=true;ui();openGate();}).catch(()=>{});
-document.addEventListener('visibilitychange',()=>{if(document.hidden){if(playing){a.pause();playing=false;ui();}}else if(on&&opened)tryPlay();});
-})();
 </script>
