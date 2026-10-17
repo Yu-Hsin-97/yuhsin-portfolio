@@ -34,14 +34,16 @@ requestAnimationFrame(frame);
 })();
 </script><script>
 (function(){
-let a=null,on=true,started=false;
-const b=document.createElement('button');b.id='bgmBtn';b.type='button';b.setAttribute('aria-label','背景音樂');
-function ui(){b.textContent=on&&started?'♪':'♪';b.classList.toggle('off',!(on&&started));b.title=on?'關閉音樂':'開啟音樂';}
-function start(){if(started)return;started=true;a=new Audio('bgm.mp3');a.loop=true;a.volume=.35;a.play().catch(()=>{started=false;});ui();}
-b.onclick=e=>{e.stopPropagation();if(!started){on=true;start();return;}on=!on;on?a.play().catch(()=>{}):a.pause();ui();};
+let a=new Audio('bgm.mp3'),on=true,playing=false;a.loop=true;a.volume=.35;a.preload='auto';
+const b=document.createElement('button');b.id='bgmBtn';b.type='button';b.setAttribute('aria-label','背景音樂');b.textContent='♪';
+function ui(){b.classList.toggle('off',!(on&&playing));b.title=on?'關閉音樂':'開啟音樂';}
+function tryPlay(){if(!on||playing)return;a.play().then(()=>{playing=true;ui();rm();}).catch(()=>{});}
+const ev=['pointerdown','touchstart','keydown','click'];
+function rm(){ev.forEach(e=>removeEventListener(e,tryPlay,true));}
+ev.forEach(e=>addEventListener(e,tryPlay,true));
+b.onclick=e=>{e.stopPropagation();if(on&&playing){on=false;a.pause();playing=false;}else{on=true;tryPlay();}ui();};
 document.body.appendChild(b);ui();
-const first=()=>{if(on)start();};
-addEventListener('pointerdown',first,{once:true});addEventListener('keydown',first,{once:true});
-document.addEventListener('visibilitychange',()=>{if(!a)return;if(document.hidden)a.pause();else if(on)a.play().catch(()=>{});});
+a.addEventListener('canplay',tryPlay,{once:true});tryPlay();
+document.addEventListener('visibilitychange',()=>{if(document.hidden){if(playing){a.pause();playing=false;ui();}}else tryPlay();});
 })();
 </script>
