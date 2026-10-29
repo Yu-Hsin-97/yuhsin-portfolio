@@ -124,8 +124,8 @@ function toggles(root){root.querySelectorAll('[data-more]').forEach(b=>b.addEven
 const ZV=document.createElement('div');ZV.className='zv';ZV.innerHTML='<img alt=""><button class="pg-x" aria-label="關閉">✕</button>';document.body.appendChild(ZV);
 function zoomImg(src){ZV.querySelector('img').src=src;ZV.classList.add('on');}
 ZV.onclick=()=>ZV.classList.remove('on');
-/* message card: sends to a Google Form when MSG_FORM is filled in */
-const MSG_FORM={action:'https://docs.google.com/forms/d/e/1FAIpQLScHXcBHp57zZjNPqW24NQZ33govLyGQygbGGNhy6-cFRxQ8aA/formResponse',name:'',text:'entry.361348385'};
+/* message card: emails each message via FormSubmit */
+const MSG_FORM={action:'https://formsubmit.co/ajax/sharonstar104121@gmail.com'};
 function setupMsg(v){const f=v.querySelector('.msg');if(!f)return;
   const ta=f.querySelector('.msg-text'),nm=f.querySelector('.msg-name'),n=f.querySelector('.msg-n'),st=f.querySelector('.msg-s'),go=f.querySelector('.msg-go');
   ta.addEventListener('input',()=>{n.textContent=ta.value.length+' / 300';});
@@ -133,8 +133,10 @@ function setupMsg(v){const f=v.querySelector('.msg');if(!f)return;
     if(!t){st.textContent='先寫一點想說的話吧 ✏️';ta.focus();return;}
     if(!MSG_FORM.action){st.textContent='留言信箱施工中 🚧 很快就能寄出囉，謝謝你！';return;}
     go.disabled=true;go.textContent='寄送中…';
-    const who=nm.value.trim()||'匿名',fd=new URLSearchParams();if(MSG_FORM.name){fd.append(MSG_FORM.text,t);fd.append(MSG_FORM.name,who);}else fd.append(MSG_FORM.text,'【'+who+'】\n'+t);
-    fetch(MSG_FORM.action,{method:'POST',mode:'no-cors',body:fd}).then(()=>{f.classList.add('sent');ta.value='';nm.value='';n.textContent='0 / 300';st.textContent='收到了！謝謝你的話 💛';})
+    const who=nm.value.trim()||'匿名';
+    fetch(MSG_FORM.action,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({'名字':who,'留言':t,_subject:'于昕的網站有新留言：'+who,_template:'table',_captcha:'false'})})
+      .then(r=>{if(!r.ok)throw 0;f.classList.add('sent');ta.value='';nm.value='';n.textContent='0 / 300';st.textContent='收到了！謝謝你的話 💛';})
       .catch(()=>{st.textContent='好像沒有寄出去，等一下再試試看 🙏';}).finally(()=>{go.disabled=false;go.textContent='寄出 💌';setTimeout(()=>f.classList.remove('sent'),1200);});});}
 /* ---------- 01 about me: scroll up & down ---------- */
 function pAbout(v){
