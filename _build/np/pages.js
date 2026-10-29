@@ -134,9 +134,11 @@ function setupMsg(v){const f=v.querySelector('.msg');if(!f)return;
     if(!MSG_FORM.action){st.textContent='留言信箱施工中 🚧 很快就能寄出囉，謝謝你！';return;}
     go.disabled=true;go.textContent='寄送中…';
     const who=nm.value.trim()||'匿名';
-    fetch(MSG_FORM.action,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify({'名字':who,'留言':t,_subject:'于昕的網站有新留言：'+who,_template:'table',_captcha:'false'})})
-      .then(r=>{if(!r.ok)throw 0;f.classList.add('sent');ta.value='';nm.value='';n.textContent='0 / 300';st.textContent='收到了！謝謝你的話 💛';})
+    const body=new URLSearchParams({'名字':who,'留言':t,_subject:'于昕的網站有新留言：'+who,_template:'table',_captcha:'false'});
+    const ok=()=>{f.classList.add('sent');ta.value='';nm.value='';n.textContent='0 / 300';st.textContent='收到了！謝謝你的話 💛';};
+    fetch(MSG_FORM.action,{method:'POST',headers:{'Accept':'application/json'},body})
+      .then(r=>r.text().then(x=>{console.log('[msg]',r.status,x);if(!r.ok)throw 0;ok();}))
+      .catch(()=>fetch(MSG_FORM.action,{method:'POST',mode:'no-cors',body}).then(ok))
       .catch(()=>{st.textContent='好像沒有寄出去，等一下再試試看 🙏';}).finally(()=>{go.disabled=false;go.textContent='寄出 💌';setTimeout(()=>f.classList.remove('sent'),1200);});});}
 /* ---------- 01 about me: scroll up & down ---------- */
 function pAbout(v){
